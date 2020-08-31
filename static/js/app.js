@@ -65,4 +65,20 @@ d3.json("samples.json").then(function(data) {
     };
     // Render the plot to the div tag with id "plot"
     Plotly.newPlot("bar", data, layout);
+
+    // Call updatePlotly() when a change takes place to the DOM
+    d3.selectAll("row").on("change", optionChanged);
+
+    // This function is called when a dropdown menu item is selected
+    function optionChanged() {
+        // Use D3 to select the dropdown menu
+        var dropdownMenu = d3.select("#selDataset");
+        // Assign the value of the dropdown menu option to a variable
+        var dataset = dropdownMenu.node().value;
+  
+        var CHART = d3.selectAll("#bar").node();
+
+
+
+
 });
