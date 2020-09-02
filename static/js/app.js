@@ -3,6 +3,7 @@ var sample_values;
 var otu_ids;
 var otu_labels;
 var metadata;
+var metadata_0;
 var samples_dict;
 var metadata_dict;
 var names;
@@ -12,29 +13,24 @@ var names;
 d3.json("samples.json").then(function (data) {
     // console.log(typeof(data));;
     // Grab sample_values, otu_ids and otu_labels from the response json object to build the plots
-    samples = data.samples
+    samples = data.samples;
     sample_values = data.samples[0].sample_values;
     otu_ids = data.samples[0].otu_ids;
     otu_labels = data.samples[0].otu_labels;
-
-    for (var i = 0; i < samples.length; i++) {
-        samples_dict = data.samples[i];
-    }
-    console.log(samples_dict)
-
-    // console.log(otu_ids)
-    // console.log(otu_labels)
 
     // Declare variables names
     names = data.names;
     //var data_941 = data.samples[1].sample_values;
     // console.log(names)
 
-    //Variable metadata for info Box:  
-    metadata = data.metadata
-
+    //Variable metadata for info Box: 
+    metadata = data.metadata; 
+    metadata_0 = data.metadata[0];
+    
     populateDropdownMenu(names);
+    initialiseMetadata(metadata_0);
     displayDefault();
+
 });
 //console.log(metadata)
 //console.log(metadata_0)
@@ -53,6 +49,16 @@ function populateDropdownMenu(names) {
         });
 }
 
+//Setting up the info box with metadata:
+// Iterate through each key and value of the metadata dictionary
+function initialiseMetadata(metadata_0) {
+    Object.entries(metadata_0).forEach(([key, value]) => {
+        //Select the 'sample-metadata' area and append and replace it by text with the key value pair of the metadata:
+        d3.select("#sample-metadata").append("div").text(`${key}: ${value}`);
+    })
+}
+
+
 // This function is called when a dropdown menu item is selected
 function getData() {
     var dropdownMenu = d3.select("#selDataset");
@@ -68,28 +74,28 @@ function getData() {
             // Iterate through each key and value of the metadata dictionary 
             Object.entries(metadata_dict).forEach(([key, value]) => {
                 //Select the 'sample-metadata' area and append and replace it by text with the key value pair of the metadata:
-               
                 d3.select("#sample-metadata").append("div").text(`${key}: ${value}`);
             });
             break;
         }
     }
-displayDefault()
-};
+    // Initialize an empty array for the country's data
+    var data = [];
+    for (var i = 0; i < samples.length; i++) {
+        samples_dict = samples[i];
+        //Conditional based on the selection of the dropdown menu:
+        if (dataset == samples_dict.id) {
+            //Place the display default inside a for loop to get the data 
+            data = samples_dict.sample_values;
+        }
+        // Call function to update the chart
+        displayDefault(data);
+    }
+}
 
-// Call updatePlotly() when a change takes place to the DOM
+// Call getData when a change takes place to the DOM
 d3.select("#selDataset").on("change", getData);
 
-// // Display the metadata in the demographic info box:
-// // function buildTable(dates, openPrices, highPrices, lowPrices, closingPrices, volume) {
-//     var infoBox = d3.select("#sample-metadata").selectAll("div");
-//     // var tbody = table.select("tbody");
-//     // var trow;
-//     for (var i = 0; i < metadata.length; i++) {
-//       infoBox.append("div").text(data.metadataID);
-//     //infoBox.append("div").text(data.metadata[i].ethnicity);
-// //     }
-// //   }
 
 
 // Display the default plot
@@ -147,6 +153,11 @@ function displayDefault() {
     // Render the plot to the div tag with id "plot"
     Plotly.newPlot("bar", data, layout);
 }
+
+// // Update the restyled plot's values
+// function updatePlotly(newdata) {
+//     Plotly.restyle("bar", "values", [newdata]);
+
 
 
 
