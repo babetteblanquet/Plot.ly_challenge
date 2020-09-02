@@ -3,20 +3,28 @@
 d3.json("samples.json").then(function(data) {
     // console.log(typeof(data));;
     // Grab sample_values, otu_ids and otu_labels from the response json object to build the plots
-    var sample_data = data.samples[0];
     var sample_values = data.samples[0].sample_values;
     var otu_ids = data.samples[0].otu_ids;
     var otu_labels = data.samples[0].otu_labels;
-
-    // Declare variables
-     var names = data.names;
-     var data_941 = data.samples[1].sample_values;
- 
-     console.log(names)
-    // console.log(sample_data)
     // console.log(sample_values)
     // console.log(otu_ids)
     // console.log(otu_labels)
+
+    // Declare variables
+    var names = data.names;
+    var data_941 = data.samples[1].sample_values;
+     console.log(names)
+    
+    //Variable metadata for info Box:  
+    metadata = data.metadata
+    metadata_0 = data.metadata[0]
+     for (var i = 0; i <metadata.length; i++) {
+        var metadata_dict = data.metadata[i];
+    }
+    
+    console.log(metadata)
+    console.log(metadata_0)
+    console.log(metadata_dict)
 
     //Dropdown menu set up with the array "names"
 
@@ -29,7 +37,27 @@ d3.json("samples.json").then(function(data) {
         return `<option value=${d}>${d}</option>`;
     });
 
+    // var dataset = dropdownMenu.property("value");
+
+    //Setting up the info box with metadata:
+    // Iterate through each key and value of the metadata dictionary 
+    Object.entries(metadata_0).forEach(([key, value]) => {
+        //Select the 'sample-metadata' area and append and replace it by text with the key value pair of the metadata:
+        d3.select("#sample-metadata").append("div").text(`${key}: ${value}`);
+    });
+   
+    // // Display the metadata in the demographic info box:
+    // // function buildTable(dates, openPrices, highPrices, lowPrices, closingPrices, volume) {
+    //     var infoBox = d3.select("#sample-metadata").selectAll("div");
+    //     // var tbody = table.select("tbody");
+    //     // var trow;
+    //     for (var i = 0; i < metadata.length; i++) {
+    //       infoBox.append("div").text(data.metadataID);
+    //     //infoBox.append("div").text(data.metadata[i].ethnicity);
+    // //     }
+    // //   }
     
+
   // Display the default plot
   function init() {
     //Sort the sample_values array
@@ -86,37 +114,33 @@ d3.json("samples.json").then(function(data) {
     Plotly.newPlot("bar", data, layout);
 
   }
+
   init()
 
     
    
     // Call updatePlotly() when a change takes place to the DOM
-    //d3.selectAll("#selDataset").on("change", optionChanged);
     // d3.selectAll("#selDataset").on("change", getData);
 
     // // This function is called when a dropdown menu item is selected
     // function getData() {
-    //     var dropdownMenu = d3.select("#selDataset")
-    //     .selectAll("option")
-    //     .data(names)
-    //     .enter()
-    //     .append("option")
-    //     .html(function(d) {
-    //         return `<option value=${d}>${d}</option>`;
-    //     });
-    // }
+    //     var dropdownMenu = d3.select("#selDataset");
+    //     
     
     // // Assign the value of the dropdown menu option to a variable
     //     var dataset = dropdownMenu.property("value");
     // // Initialize an empty array for the OTUs data
     //     var data = [];
 
-    //     if (dataset == '940') {
-    //         data = sample_values;
-    //     }
-    //     else if (dataset == '941') {
-    //         data = data_941;
-    //     }
+
+//     // Loop through the array 'names' to update the bar chart
+//     for (var i = 0; i <names.length; i++) {
+//       if (dataset == i) {
+//             data = data.samples[i].sample_values;
+//         }      
+// }
+
+   
 
     // //Sort the data array
     // var sortedData = data.sort((a, b) => b - a);
