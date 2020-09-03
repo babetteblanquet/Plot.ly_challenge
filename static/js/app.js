@@ -143,7 +143,7 @@ function displayDefault() {
 
     // Apply the group bar mode to the layout
     var layout = {
-        title: "Top 10 OTUs (operational taxonomic units) in belly button",
+        title: "Top 10 OTUs in belly button",
         margin: {
             l: 100,
             r: 100,
