@@ -1,5 +1,8 @@
 var samples;
 var sample_values;
+var sample_values0;
+var otu_ids0;
+var otu_labels0;
 var otu_ids;
 var otu_labels;
 var metadata;
@@ -14,9 +17,18 @@ d3.json("samples.json").then(function (data) {
     // console.log(typeof(data));;
     // Grab sample_values, otu_ids and otu_labels from the response json object to build the plots
     samples = data.samples;
-    sample_values = data.samples[0].sample_values;
-    otu_ids = data.samples[0].otu_ids;
-    otu_labels = data.samples[0].otu_labels;
+    sample_values0 = data.samples[0].sample_values;
+    otu_ids0 = data.samples[0].otu_ids;
+    otu_labels0 = data.samples[0].otu_labels;
+
+    //Access to each dictionnaries in Samples:
+    for (var i = 0; i < samples.length; i++) {
+        samples_dict = data.samples[i];
+        //Declare variables samples values, OTU_ids, OTU_labels:
+        sample_values = samples_dict.sample_values;
+        otu_ids = samples_dict.otu_ids;
+        otu_labels = samples_dict.otu_labels;
+    }
 
     // Declare variables names
     names = data.names;
@@ -24,12 +36,12 @@ d3.json("samples.json").then(function (data) {
     // console.log(names)
 
     //Variable metadata for info Box: 
-    metadata = data.metadata; 
+    metadata = data.metadata;
     metadata_0 = data.metadata[0];
-    
+
     populateDropdownMenu(names);
     initialiseMetadata(metadata_0);
-    displayDefault();
+    displayDefault(sample_values0, otu_ids0, otu_labels0);
 
 });
 //console.log(metadata)
@@ -80,16 +92,16 @@ function getData() {
         }
     }
     // Initialize an empty array for the country's data
-    var data = [];
+    // var data = [];
     for (var i = 0; i < samples.length; i++) {
         samples_dict = samples[i];
         //Conditional based on the selection of the dropdown menu:
         if (dataset == samples_dict.id) {
-            //Place the display default inside a for loop to get the data 
-            data = samples_dict.sample_values;
+            // Call function to update the chart
+            displayDefault(sample_values, otu_ids, otu_labels);
+            // //Place the display default inside a for loop to get the data 
+            // data = samples_dict.sample_values;
         }
-        // Call function to update the chart
-        displayDefault(data);
     }
 }
 
@@ -99,15 +111,15 @@ d3.select("#selDataset").on("change", getData);
 
 
 // Display the default plot
-function displayDefault() {
+function displayDefault(sample_values0, otu_ids0, otu_labels0) {
     // 1 - The bar chart
     //Sort the sample_values array
-    var sortedData = sample_values.sort((a, b) => b - a);
+    var sortedData = sample_values0.sort((a, b) => b - a);
     console.log(sortedData)
     // Slice the first 10 objects for plotting
     var slicedData = sortedData.slice(0, 10);
-    var slicedIDs = otu_ids.slice(0, 10);
-    var slicedLabels = otu_labels.slice(0, 10);
+    var slicedIDs = otu_ids0.slice(0, 10);
+    var slicedLabels = otu_labels0.slice(0, 10);
     //console.log(slicedData)
 
     // Reverse the array due to Plotly's defaults
@@ -157,28 +169,28 @@ function displayDefault() {
     // 2 - The Bubble Chart:
 
     var trace1 = {
-        x: otu_ids,
-        y: sample_values,
-        text: otu_labels,
+        x: otu_ids0,
+        y: sample_values0,
+        text: otu_labels0,
         mode: 'markers',
         marker: {
-          color: otu_ids,
-          size: sample_values
+            color: otu_ids0,
+            size: sample_values0
         }
-      };
-      
-      var data = [trace1];
-      
-      var layout = {
+    };
+
+    var data = [trace1];
+
+    var layout = {
         title: 'OTU ID in individual',
         xaxis: { title: "OTU ID" },
         yaxis: { title: "Quantity" },
         showlegend: false,
         height: 600,
         width: 1000
-      };
-      
-      Plotly.newPlot('bubble', data, layout);
+    };
+
+    Plotly.newPlot('bubble', data, layout);
 
 
 }
