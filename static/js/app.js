@@ -100,6 +100,7 @@ d3.select("#selDataset").on("change", getData);
 
 // Display the default plot
 function displayDefault() {
+    // 1 - The bar chart
     //Sort the sample_values array
     var sortedData = sample_values.sort((a, b) => b - a);
     console.log(sortedData)
@@ -152,6 +153,32 @@ function displayDefault() {
     };
     // Render the plot to the div tag with id "plot"
     Plotly.newPlot("bar", data, layout);
+
+    // 2 - The Bubble Chart:
+
+    var trace1 = {
+        x: otu_ids,
+        y: sample_values,
+        text: otu_labels,
+        mode: 'markers',
+        marker: {
+          color: otu_ids,
+          size: sample_values
+        }
+      };
+      
+      var data = [trace1];
+      
+      var layout = {
+        title: 'Bubble Chart Hover Text',
+        showlegend: false,
+        height: 600,
+        width: 600
+      };
+      
+      Plotly.newPlot('bubble', data, layout);
+
+
 }
 
 // // Update the restyled plot's values
@@ -159,61 +186,4 @@ function displayDefault() {
 //     Plotly.restyle("bar", "values", [newdata]);
 
 
-
-
-
-
-    // Call updatePlotly() when a change takes place to the DOM
-    // d3.selectAll("#selDataset").on("change", getData);
-
-    // // This function is called when a dropdown menu item is selected
-    // function getData() {
-    //     var dropdownMenu = d3.select("#selDataset");
-
-    // // Assign the value of the dropdown menu option to a variable
-    //     var dataset = dropdownMenu.property("value");
-    // // Initialize an empty array for the OTUs data
-    //     var data = [];
-
-    //     Create conditional based on the selection of the ID on the dropdown menu
-    //         if (dataset == samples_dict.id ) {
-    //             data = samples_dict.sample_values;
-    //         }      
-    // }
-
-
-    // //Sort the data array
-    // var sortedData = data.sort((a, b) => b - a);
-    // console.log(sortedData)
-    // // Slice the first 10 objects for plotting
-    // var slicedData = sortedData.slice(0, 10);
-    // var slicedIDs = otu_ids.slice(0,10);
-    // var slicedLabels = otu_labels.slice(0,10);
-    // //console.log(slicedData)
-
-    // // Reverse the array due to Plotly's defaults
-    // var reverseData = slicedData.reverse();
-    // var reverseIDs = slicedIDs.reverse();
-    // var reverseLabels = slicedLabels.reverse();
-    // // console.log(reverseData)
-    // // console.log(reverseIDs)
-    // // console.log(reverseLabels)
-
-    // //Concatenate "OTU" for each otu_ids number to create an ID array with strings such as OTU_1977
-    // var IDs = [];
-    // // Iterate through each ID object
-    //     Object.values(reverseIDs).forEach(value => {
-    //         // Concatenate "OTU" with each ID number
-    //         IDs.push(('OTU_').concat(value))
-    //     });
-
-
-    //     // Call function to update the chart
-    //     updatePlotly(data);
-    // }
-
-    // // Update the restyled plot's values
-    //     function updatePlotly(newdata) {
-    //     Plotly.restyle("bar", "values", [newdata]);
-    // }
 
