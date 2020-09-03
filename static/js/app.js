@@ -170,10 +170,12 @@ function displayDefault() {
       var data = [trace1];
       
       var layout = {
-        title: 'Bubble Chart Hover Text',
+        title: 'OTU ID in individual',
+        xaxis: { title: "OTU ID" },
+        yaxis: { title: "Quantity" },
         showlegend: false,
         height: 600,
-        width: 600
+        width: 1000
       };
       
       Plotly.newPlot('bubble', data, layout);
