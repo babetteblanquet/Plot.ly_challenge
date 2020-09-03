@@ -6,7 +6,7 @@ var otu_labels0;
 var otu_ids;
 var otu_labels;
 var metadata;
-var metadata_0;
+var metadata0;
 var samples_dict;
 var metadata_dict;
 var names;
@@ -37,15 +37,17 @@ d3.json("samples.json").then(function (data) {
 
     //Variable metadata for info Box: 
     metadata = data.metadata;
-    metadata_0 = data.metadata[0];
+    metadata0 = data.metadata[0];
 
     populateDropdownMenu(names);
-    initialiseMetadata(metadata_0);
+    initialiseMetadata(metadata0);
     displayDefault(sample_values0, otu_ids0, otu_labels0);
+    // Call getData when a change takes place to the DOM
+    //d3.select("#selDataset").on("change", getData);
 
 });
 //console.log(metadata)
-//console.log(metadata_0)
+//console.log(metadata_)
 //console.log(metadata_dict)
 //console.log(metadata_dict.id)
 
@@ -63,8 +65,8 @@ function populateDropdownMenu(names) {
 
 //Setting up the info box with metadata:
 // Iterate through each key and value of the metadata dictionary
-function initialiseMetadata(metadata_0) {
-    Object.entries(metadata_0).forEach(([key, value]) => {
+function initialiseMetadata(metadata0) {
+    Object.entries(metadata0).forEach(([key, value]) => {
         //Select the 'sample-metadata' area and append and replace it by text with the key value pair of the metadata:
         d3.select("#sample-metadata").append("div").text(`${key}: ${value}`);
     })
@@ -91,8 +93,7 @@ function getData() {
             break;
         }
     }
-    // Initialize an empty array for the country's data
-    // var data = [];
+    // Bar chart updating based on the selection of the dropdown menu:
     for (var i = 0; i < samples.length; i++) {
         samples_dict = samples[i];
         //Conditional based on the selection of the dropdown menu:
@@ -101,6 +102,7 @@ function getData() {
             displayDefault(sample_values, otu_ids, otu_labels);
             // //Place the display default inside a for loop to get the data 
             // data = samples_dict.sample_values;
+            break;
         }
     }
 }
@@ -195,9 +197,7 @@ function displayDefault(sample_values0, otu_ids0, otu_labels0) {
 
 }
 
-// // Update the restyled plot's values
-// function updatePlotly(newdata) {
-//     Plotly.restyle("bar", "values", [newdata]);
+//displayDefault(sample_values0, otu_ids0, otu_labels0)
 
 
 
