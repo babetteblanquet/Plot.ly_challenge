@@ -24,32 +24,27 @@ d3.json("samples.json").then(function (data) {
     //Access to each dictionnaries in Samples:
     for (var i = 0; i < samples.length; i++) {
         samples_dict = data.samples[i];
-        //Declare variables samples values, OTU_ids, OTU_labels:
-        sample_values = samples_dict.sample_values;
-        otu_ids = samples_dict.otu_ids;
-        otu_labels = samples_dict.otu_labels;
     }
 
     // Declare variables names
     names = data.names;
-    //var data_941 = data.samples[1].sample_values;
-    // console.log(names)
-
+    
     //Variable metadata for info Box: 
     metadata = data.metadata;
     metadata0 = data.metadata[0];
+    for (var i = 0; i < metadata.length; i++) {
+        metadata_dict = metadata[i];
+    }
 
     populateDropdownMenu(names);
     initialiseMetadata(metadata0);
     displayDefault(sample_values0, otu_ids0, otu_labels0);
-    // Call getData when a change takes place to the DOM
-    //d3.select("#selDataset").on("change", getData);
+
+    //console.log(metadata)
+    console.log(metadata_dict.id);
+    console.log(samples_dict.id);
 
 });
-//console.log(metadata)
-//console.log(metadata_)
-//console.log(metadata_dict)
-//console.log(metadata_dict.id)
 
 //Dropdown menu set up with the array "names"
 function populateDropdownMenu(names) {
@@ -72,13 +67,12 @@ function initialiseMetadata(metadata0) {
     })
 }
 
-
 // This function is called when a dropdown menu item is selected
 function getData() {
     var dropdownMenu = d3.select("#selDataset");
     //Selecting the value of the dropdown Menu:
     var dataset = dropdownMenu.property("value");
-
+    
     for (var i = 0; i < metadata.length; i++) {
         metadata_dict = metadata[i];
         //Conditional based on the selection of the dropdown menu:
@@ -94,12 +88,14 @@ function getData() {
         }
     }
     // Bar chart updating based on the selection of the dropdown menu:
+    //Selecting the value of the dropdown Menu:
+    var dataset = dropdownMenu.property("value");
     for (var i = 0; i < samples.length; i++) {
         samples_dict = samples[i];
         //Conditional based on the selection of the dropdown menu:
         if (dataset == samples_dict.id) {
             // Call function to update the chart
-            displayDefault(sample_values, otu_ids, otu_labels);
+            displayDefault(samples_dict.sample_values, samples_dict.otu_ids, samples_dict.otu_labels);
             // //Place the display default inside a for loop to get the data 
             // data = samples_dict.sample_values;
             break;
@@ -111,8 +107,7 @@ function getData() {
 d3.select("#selDataset").on("change", getData);
 
 
-
-// Display the default plot
+// Display the default plots for the bar chart and the Bubble chart:
 function displayDefault(sample_values0, otu_ids0, otu_labels0) {
     // 1 - The bar chart
     //Sort the sample_values array
@@ -142,7 +137,7 @@ function displayDefault(sample_values0, otu_ids0, otu_labels0) {
 
     console.log(IDs);
 
-    // Trace1 for the sameple values Data
+    // Trace1 for the sample values Data
     var trace1 = {
         x: reverseData,
         y: IDs,
@@ -196,8 +191,6 @@ function displayDefault(sample_values0, otu_ids0, otu_labels0) {
 
 
 }
-
-//displayDefault(sample_values0, otu_ids0, otu_labels0)
 
 
 
