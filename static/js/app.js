@@ -35,14 +35,14 @@ d3.json("samples.json").then(function (data) {
     for (var i = 0; i < metadata.length; i++) {
         metadata_dict = metadata[i];
     }
-
-    populateDropdownMenu(names);
-    initialiseMetadata(metadata0);
-    displayDefault(sample_values0, otu_ids0, otu_labels0);
-
     //console.log(metadata)
     console.log(metadata_dict.id);
     console.log(samples_dict.id);
+
+    //Call the functions to initialise the page:
+    populateDropdownMenu(names);
+    initialiseMetadata(metadata0);
+    displayDefault(sample_values0, otu_ids0, otu_labels0);
 
 });
 
@@ -73,6 +73,7 @@ function getData() {
     //Selecting the value of the dropdown Menu:
     var dataset = dropdownMenu.property("value");
     
+    //Looping through metadata array to update the demographic info:
     for (var i = 0; i < metadata.length; i++) {
         metadata_dict = metadata[i];
         //Conditional based on the selection of the dropdown menu:
@@ -107,10 +108,10 @@ function getData() {
 d3.select("#selDataset").on("change", getData);
 
 
-// Display the default plots for the bar chart and the Bubble chart:
+// Display the default plots for the Bar chart and the Bubble chart:
 function displayDefault(sample_values0, otu_ids0, otu_labels0) {
     // 1 - The bar chart
-    //Sort the sample_values array
+    //Sort the sample_values array - using sample_values0 as the first dictionnary of the array referencing id: 940
     var sortedData = sample_values0.sort((a, b) => b - a);
     console.log(sortedData)
     // Slice the first 10 objects for plotting
@@ -127,12 +128,12 @@ function displayDefault(sample_values0, otu_ids0, otu_labels0) {
     // console.log(reverseIDs)
     // console.log(reverseLabels)
 
-    //Concatenate "OTU" for each otu_ids number to create an ID array with strings such as OTU_1977
+    //Concatenate "OTU" for each otu_ids number to create an ID array with strings such as 'OTU 1977'
     var IDs = [];
     // Iterate through each ID object
     Object.values(reverseIDs).forEach(value => {
         // Concatenate "OTU" with each ID number
-        IDs.push(('OTU_').concat(value))
+        IDs.push(('OTU ').concat(value))
     });
 
     console.log(IDs);
