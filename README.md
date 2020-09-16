@@ -1,11 +1,9 @@
 # Plotly_challenge: 
-creating interactive charts with a dropdown menu with Javascript, Plotly, HTML, CSS.
+This interactive dashboard explores the [Belly Button Biodiversity dataset] (http://robdunnlab.com/projects/belly-button-biodiversity/), which catalogs the microbes that colonize human navels. The dataset reveals that a small handful of microbial species (also called operational taxonomic units, or OTUs, in the study) were present in more than 70% of people, while the rest were relatively rare.
 
-The analysis shows the different OTUs (operational taxonomic units) in different individuals' belly buttons.
-It has been published to github pages: 
+Our interactive dashboard can be visualise here:
 https://babetteblanquet.github.io/Plotly_challenge/
 
-<iframe src="https://giphy.com/embed/VG8IFUeowmNsEiP17O" width="480" height="260" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/VG8IFUeowmNsEiP17O">via GIPHY</a></p>
 
 
 In this repository you will find:
